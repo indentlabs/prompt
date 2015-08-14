@@ -18,7 +18,6 @@ label { font-weight: normal; }
 
 				<ul class="mui-dropdown-menu">
 					<li><a href="#">Young Adult</a></li>
-					<li><a href="#">Short Story</a></li>
 				</ul>
 			</div>
 		</div>
@@ -47,14 +46,12 @@ $('#thebutton').click(function () {
 
 	var prompt;
 	switch (genre) {
-		case 'short story':
-			prompt = generate_short_story_prompt();
 		case 'young adult':
 			prompt = generate_young_adult_prompt();
 			break;
 
 		default:
-			prompt = "randomized genre prompt"
+			prompt = generate_young_adult_prompt();
 	}
 
 	console.log("got prompt ");
@@ -62,16 +59,14 @@ $('#thebutton').click(function () {
 	var prompt_container = $('<div />').addClass('mui-panel').html([
 		'Title ' + prompt['trope']['title'],
 		'Trope ' + prompt['trope']['description'],
-		// 'Characters ' + [
-		// 	'John',
-		// 	'Carol'
-		// ].join('<br />')
-	].join('<br />')).prependTo('#prompt-results-container');
+		'Characters ' + [
+			generate_character(genre)['name'],
+			generate_character(genre)['name']
+		].join('<br />'),
+		'Location ' + generate_location(genre),
+		'Word limit ' + Math.max(5, Math.floor(Math.random() * 100) * 100)
+	].join('<br />')).prependTo('#prompt-results-container'); // #todo should have a 1-click "Respond" button to open write box
 });
-
-function generate_short_story_prompt() {
-	return "short story";
-}
 
 function generate_young_adult_prompt() {
 	var ya_tropes = [
@@ -122,10 +117,23 @@ function generate_young_adult_prompt() {
 	];
 
 	return {
-		trope: ya_tropes[Math.floor(Math.random()*ya_tropes.length)]
+		trope: ya_tropes[Math.floor(Math.random() * ya_tropes.length)]
 	}
 }
 
+// #todo all character names need hovercards
+function generate_character(genre) {
+	var names = ['Alice', 'Bob', 'Carol']; // replace with Indent API
+
+	return {
+		name: names[Math.floor(Math.random() * names.length)],
+		age: Math.floor(Math.random() * 100)
+	}
+}
+
+function generate_location(genre) {
+	return "Location, Indent"
+}
 
 console.log('done loading');
 </script>
