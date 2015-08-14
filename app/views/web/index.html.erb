@@ -56,6 +56,7 @@ $('#thebutton').click(function () {
 
 	console.log("got prompt ");
 	console.log(prompt);
+	// #todo prompt cards need designed, probably templated/cloned
 	var prompt_container = $('<div />').addClass('mui-panel').html([
 		'Title ' + prompt['trope']['title'],
 		'Trope ' + prompt['trope']['description'],
@@ -123,7 +124,7 @@ function generate_young_adult_prompt() {
 
 // #todo all character names need hovercards
 function generate_character(genre) {
-	var names = ['Alice', 'Bob', 'Carol']; // replace with Indent API
+	var names = ['Alice', 'Bob', 'Carol']; // #todo replace with Indent API, needs jsonp for xdom reqs
 
 	return {
 		name: names[Math.floor(Math.random() * names.length)],
@@ -131,7 +132,7 @@ function generate_character(genre) {
 	}
 }
 
-function generate_location(genre) {
+function generate_location(genre) { // #todo get from indent etc
 	return "Location, Indent"
 }
 
