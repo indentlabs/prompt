@@ -1,0 +1,131 @@
+<style>
+body { margin: 50px 0; background: #dfefff;}
+#thebutton { float: right; }
+label { font-weight: normal; }
+.filter-option { width: 160px; }
+</style>
+
+<div class="mui-container">
+	<div class="mui-container">
+		<div class="mui-panel">
+			<input type="button" value="Prompt me" id="thebutton" class="mui-btn mui-btn-primary" />
+			
+			<div class="mui-dropdown">
+				<button class="mui-btn replaced-dropdown filter-option" data-mui-toggle="dropdown">
+					<span class="dropdown-label" id="selected-genre">Genre</span>
+					<span class="mui-caret"></span>
+				</button>
+
+				<ul class="mui-dropdown-menu">
+					<li><a href="#">Young Adult</a></li>
+					<li><a href="#">Short Story</a></li>
+				</ul>
+			</div>
+		</div>
+
+		<div id="prompt-results-container"></div>
+
+	</div>
+
+    <div style="text-align: center">
+        Powered by <a href="http://indentlabs.com">Indent</a>
+    </div>
+</div>
+
+<script>
+console.log('start loading');
+
+
+$('.mui-dropdown-menu li').click(function (e) {
+	var selected_option = $(e.target).text();
+	$(e.target).closest('div.mui-dropdown').children('button').children('.dropdown-label').text(selected_option);
+});
+
+$('#thebutton').click(function () {
+	var genre = $('#selected-genre').text().toLowerCase();
+	console.log('generating ' + genre);
+
+	var prompt;
+	switch (genre) {
+		case 'short story':
+			prompt = generate_short_story_prompt();
+		case 'young adult':
+			prompt = generate_young_adult_prompt();
+			break;
+
+		default:
+			prompt = "randomized genre prompt"
+	}
+
+	console.log("got prompt ");
+	console.log(prompt);
+	var prompt_container = $('<div />').addClass('mui-panel').html([
+		'Title ' + prompt['trope']['title'],
+		'Trope ' + prompt['trope']['description'],
+		// 'Characters ' + [
+		// 	'John',
+		// 	'Carol'
+		// ].join('<br />')
+	].join('<br />')).prependTo('#prompt-results-container');
+});
+
+function generate_short_story_prompt() {
+	return "short story";
+}
+
+function generate_young_adult_prompt() {
+	var ya_tropes = [
+		{
+			title: 'Rebirth',
+			description: 'Presents {{random_character}} in a conflict. Through pain and suffering, their spirit survives the fight and through a development of self-awareness is reborn.'
+		},
+
+		{
+			title: 'The Fall',
+			description: '{{random_character}} is expelled because of undesirable actions their part.'
+		},
+
+		{
+			title: 'The Journey',
+			description: '{{random_character}} takes a journey, either physically or emotionally, that brings meaning in their life.'
+		},
+
+		{
+			title: 'The Trial',
+			description: '{{random_character}} experiences growth and change; he or she experiences a transformation.'
+		},
+
+		{
+			title: 'Annihilation',
+			description: 'In order to exist in an unbearable world, {{random_character}} accepts that life is "absurd, ridiculous, and ironic".'
+		},
+
+		{
+			title: 'Parental Bonds',
+			description: '{{random_character}} deals with parental conflict by rejecting or bonding with parents.'
+		},
+
+		{
+			title: 'Wise Old Man', // #todo Man vs Woman for MC gender
+			description: 'This figure protects or assists {{random_character}} in facing challenges.'
+		},
+
+		{
+			title: 'The Hero',
+			description: '{{random_character}} leaves his or her community to go on an adventure, performing actions that bring honor to the community.'
+		},
+
+		{
+			title: 'Sacrificial Redemption',
+			description: '{{random_character}} is willing to die for a belief, and maintains a strong sense of morality.'
+		}
+	];
+
+	return {
+		trope: ya_tropes[Math.floor(Math.random()*ya_tropes.length)]
+	}
+}
+
+
+console.log('done loading');
+</script>
